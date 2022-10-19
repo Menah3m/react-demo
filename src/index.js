@@ -5,16 +5,29 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 
-  class Square extends React.Component {
 
+// 类组件
+// 使用class定义个一个组件，可以包含多个方法
 
-    render() {
-      return (
-        <button className="square" onClick={()=>this.props.onClick()}>
-          {this.props.value}
-        </button>
-      );
-    }
+// 函数组件
+// 如果组件中只有一个render()方法，且不含state，则使用函数组件会更简单
+//   class Square extends React.Component {
+
+//     render() {
+//       return (
+//         <button className="square" onClick={()=>this.props.onClick()}>
+//           {this.props.value}
+//         </button>
+//       );
+//     }
+//   }
+
+  function Square(props){
+    return (
+        <button className="square" onClick={props.onClick}>
+        {props.value}
+      </button>
+    )
   }
   
   class Board extends React.Component {
@@ -27,6 +40,8 @@ import './index.css';
     }
 
     handleClick(i){
+        //使用.slice()生成数组的副本，而不是直接在原对象上修改
+        //有利于追踪历史变化
         const squares = this.state.squares.slice()
         squares[i] = 'X'
         this.setState({squares: squares})
