@@ -22,6 +22,7 @@ import './index.css';
 //     }
 //   }
 
+// Square 组件
   function Square(props){
     return (
         <button className="square" onClick={props.onClick}>
@@ -30,12 +31,15 @@ import './index.css';
     )
   }
   
+// Board 组件
   class Board extends React.Component {
     // 初始化board的state为一个长度为9的空值数组
     constructor(props){
         super(props)
         this.state = {
             squares: Array(9).fill(null),
+            // xIsNext来决定下一步是x还是o出手
+            xIsNext: true,
         }
     }
 
@@ -43,8 +47,11 @@ import './index.css';
         //使用.slice()生成数组的副本，而不是直接在原对象上修改
         //有利于追踪历史变化
         const squares = this.state.squares.slice()
-        squares[i] = 'X'
-        this.setState({squares: squares})
+        squares[i] = this.state.xIsNext ? 'X':'O'
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext
+        })
     }
 
     renderSquare(i) {
@@ -52,7 +59,7 @@ import './index.css';
     }
   
     render() {
-      const status = 'Next player: X';
+      const status = 'Next player: '+ (this.state.xIsNext ? 'X': 'O');
   
       return (
         <div>
@@ -77,6 +84,7 @@ import './index.css';
     }
   }
   
+// Game 组件
   class Game extends React.Component {
     render() {
       return (
